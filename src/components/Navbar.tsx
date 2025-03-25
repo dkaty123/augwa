@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <header 
       className={cn(
-        "fixed top-1 left-0 right-0 z-50 transition-all duration-300 flex flex-col", // Added top-1 to lower the navbar slightly
+        "fixed top-2 left-0 right-0 z-50 transition-all duration-300 flex flex-col", // Changed from top-1 to top-2
         scrolled 
           ? "bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg shadow-sm border-b border-slate-200/50 dark:border-gray-800/50" 
           : "bg-transparent pt-2" // Added top padding to lower the navbar
