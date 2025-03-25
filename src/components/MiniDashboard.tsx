@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Calendar, Users, BarChart3, Clock, DollarSign, CheckCircle, X, ChevronDown } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -165,7 +164,7 @@ const MiniDashboard = () => {
                         whileHover={{ scale: 1.05, rotate: [-1, 1, 0], transition: { rotate: { duration: 0.3 } } }}
                       >
                         {/* Phone top notch */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-gray-800 dark:bg-gray-700 rounded-b-xl z-10"></div>
+                        <div className="absolute top-0 left-1/2 -translate-x1/2 w-1/3 h-6 bg-gray-800 dark:bg-gray-700 rounded-b-xl z-10"></div>
                         
                         <div className="relative aspect-[9/19.5] overflow-hidden">
                           {/* We'll replace unsplash images with screenshots of our dashboard */}
@@ -335,10 +334,7 @@ const MiniDashboard = () => {
       </div>
       
       {/* Scroll down indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-500 dark:text-gray-400 animate-bounce-soft">
-        <span className="text-sm mb-2">Scroll Down</span>
-        <ChevronDown className="h-5 w-5" />
-      </div>
+      
     </section>
   );
 };

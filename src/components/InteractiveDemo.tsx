@@ -20,6 +20,9 @@ const InteractiveDemo = () => {
   const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
+    // Immediately set to visible to ensure it loads properly
+    setIsVisible(true);
+    
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         setIsVisible(true);
