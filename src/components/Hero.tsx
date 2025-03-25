@@ -2,12 +2,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParallax } from '@/hooks/useParallax';
-import { ArrowRight, Calendar, CreditCard, Bell, Users, ChevronDown } from 'lucide-react';
+import { ArrowRight, Calendar, CreditCard, Bell, Users, ChevronDown, Star, Shield, Sparkles } from 'lucide-react';
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const { offset } = useParallax(heroRef);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   
   // Calculate parallax effects
   const translateY = offset * 0.4;
@@ -21,7 +22,21 @@ const Hero = () => {
       setIsLoaded(true);
     }, 300);
     
-    return () => clearTimeout(timer);
+    // Hide scroll indicator after user scrolls
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
   
   // Animation classes with staggered timing
@@ -33,7 +48,7 @@ const Hero = () => {
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden pt-16" /* Added pt-16 to account for navbar */
       id="hero"
     >
       {/* Dynamic video background with overlay */}
@@ -75,10 +90,54 @@ const Hero = () => {
           className="absolute bottom-[10%] left-[20%] w-72 h-72 rounded-full bg-blue-200/50 dark:bg-blue-900/10 blur-3xl z-0"
           style={{ transform: `translate3d(${translateYFast * 0.2}px, ${translateYFast * -0.2}px, 0)` }}
         ></div>
+
+        {/* New floating elements */}
+        <div className="absolute top-[30%] right-[30%] opacity-70 animate-float" style={{ animationDelay: '0.5s' }}>
+          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2 transform rotate-12">
+            <Calendar className="h-8 w-8 text-augwa-500" />
+          </div>
+        </div>
+        
+        <div className="absolute bottom-[35%] left-[35%] opacity-70 animate-float" style={{ animationDelay: '1.2s' }}>
+          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2 transform -rotate-6">
+            <CreditCard className="h-8 w-8 text-green-500" />
+          </div>
+        </div>
+        
+        <div className="absolute top-[25%] left-[25%] opacity-70 animate-float" style={{ animationDelay: '0.8s' }}>
+          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2 transform rotate-3">
+            <Star className="h-8 w-8 text-amber-500" />
+          </div>
+        </div>
+        
+        <div className="absolute bottom-[20%] right-[20%] opacity-70 animate-float" style={{ animationDelay: '1.5s' }}>
+          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2 transform -rotate-12">
+            <Users className="h-8 w-8 text-purple-500" />
+          </div>
+        </div>
       </div>
       
       <div className="container mx-auto px-4 z-10 relative py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-6 inline-flex items-center px-4 py-2 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-sm">
+            <Shield className="w-5 h-5 text-green-500 mr-2" />
+            <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Trusted by 1,200+ cleaning businesses</span>
+            <div className="ml-2 flex -space-x-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="w-6 h-6 rounded-full bg-gray-200 border-2 border-white dark:border-gray-800 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={`https://randomuser.me/api/portraits/thumb/men/${30 + i}.jpg`} 
+                    alt={`User ${i}`}
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+              <div className="w-6 h-6 rounded-full bg-augwa flex items-center justify-center text-xs text-white border-2 border-white dark:border-gray-800">
+                +
+              </div>
+            </div>
+          </div>
+          
           <h1 
             className={getAnimationClass(100)}
             style={{ transform: `translateY(${translateYSlow * -0.3}px)` }}
@@ -112,10 +171,26 @@ const Hero = () => {
             </Link>
             <a 
               href="#calculator" 
-              className="px-8 py-3 rounded-full border border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white font-medium hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 transition-all duration-300 hover:scale-105 active:scale-95"
+              className="px-8 py-3 rounded-full bg-white/80 backdrop-blur-sm border border-gray-300 dark:bg-gray-800/80 dark:border-gray-700 text-gray-800 dark:text-white font-medium hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-200 transition-all duration-300 hover:scale-105 active:scale-95"
             >
               Calculate Your Savings
             </a>
+          </div>
+          
+          {/* New Trust indicators */}
+          <div className={`mt-10 flex flex-wrap justify-center gap-6 ${getAnimationClass(400)}`}>
+            <div className="flex items-center">
+              <Sparkles className="h-5 w-5 text-amber-500 mr-2" />
+              <span className="text-sm text-gray-600 dark:text-gray-300">5-star rated</span>
+            </div>
+            <div className="flex items-center">
+              <Shield className="h-5 w-5 text-green-500 mr-2" />
+              <span className="text-sm text-gray-600 dark:text-gray-300">GDPR Compliant</span>
+            </div>
+            <div className="flex items-center">
+              <Star className="h-5 w-5 text-purple-500 mr-2" />
+              <span className="text-sm text-gray-600 dark:text-gray-300">Award winning</span>
+            </div>
           </div>
           
           {/* Feature highlights */}
@@ -159,7 +234,7 @@ const Hero = () => {
             
             {/* Main dashboard image */}
             <img 
-              src="https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?q=80&w=2070&auto=format&fit=crop" 
+              src="https://images.unsplash.com/photo-1548611716-b7046352db42?q=80&w=2070&auto=format&fit=crop" 
               alt="Augwa dashboard" 
               className="w-full h-auto object-cover rounded-xl"
               style={{ height: '550px', objectPosition: 'center 30%' }}
@@ -223,13 +298,39 @@ const Hero = () => {
               </div>
             </div>
           </div>
+
+          {/* New floating card */}
+          <div
+            className="absolute -top-4 right-[20%] animate-float animation-delay-200 z-20 hidden md:block"
+            style={{ transform: `translateZ(25px)`, animationDelay: '1.8s' }}
+          >
+            <div className="glass-card p-4 border border-white/30 dark:border-white/10 shadow-xl transform rotate-6">
+              <div className="flex items-center">
+                <div className="bg-purple-100 dark:bg-purple-900/30 p-2 rounded-lg">
+                  <Star className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">Customer Review</p>
+                  <div className="flex items-center text-amber-500">
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                    <Star className="w-3 h-3 fill-current" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
-        {/* Scroll down indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-500 dark:text-gray-400 animate-bounce-soft">
-          <span className="text-sm mb-2">Scroll Down</span>
-          <ChevronDown className="h-5 w-5" />
-        </div>
+        {/* Scroll down indicator - Only show when at top of page */}
+        {showScrollIndicator && (
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-500 dark:text-gray-400 animate-bounce-soft">
+            <span className="text-sm mb-2">Scroll Down</span>
+            <ChevronDown className="h-5 w-5" />
+          </div>
+        )}
       </div>
       
       {/* Curved divider at the bottom */}
