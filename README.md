@@ -1,7 +1,6 @@
 # 🧹 Augwa – Business Management Platform for Residential Cleaning Businesses  
 
-![Uploading image.png…]()
-
+![image](https://github.com/user-attachments/assets/b8ca505d-b3f9-488c-bbda-3f85bd42033e)
 
 Augwa is a modern business management platform tailored for small residential cleaning businesses. It helps streamline operations, automate scheduling, manage client relationships, and track payments — all in one place.  
 
