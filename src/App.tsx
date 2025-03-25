@@ -17,7 +17,14 @@ import Invoices from "./pages/dashboard/Invoices";
 import Transactions from "./pages/dashboard/Transactions";
 import Staff from "./pages/dashboard/Staff";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
