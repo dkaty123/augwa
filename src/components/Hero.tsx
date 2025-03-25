@@ -1,24 +1,55 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParallax } from '@/hooks/useParallax';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, CreditCard, Bell, Users, ChevronDown } from 'lucide-react';
 
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const { offset } = useParallax(heroRef);
+  const [isLoaded, setIsLoaded] = useState(false);
   
   // Calculate parallax effects
   const translateY = offset * 0.4;
   const translateYSlow = offset * 0.2;
   const translateYFast = offset * 0.6;
+  const rotate = offset * 0.02;
+  
+  useEffect(() => {
+    // Trigger animations after a short delay for a smoother entry
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  // Animation classes with staggered timing
+  const getAnimationClass = (delay: number) => {
+    return `opacity-0 translate-y-8 ${isLoaded ? 'animate-fade-up' : ''} transition-all duration-1000 ease-out` + 
+           (isLoaded ? ` animation-delay-${delay}` : '');
+  };
   
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen flex items-center py-20 md:py-32 overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden"
       id="hero"
     >
+      {/* Dynamic video background with overlay */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-augwa-600/20 via-augwa-500/5 to-white dark:from-augwa-900/40 dark:via-augwa-800/10 dark:to-gray-900 z-10"></div>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 object-cover w-full h-full opacity-25 dark:opacity-15"
+        >
+          <source src="https://assets.codepen.io/2018358/lava-lamp.mp4" type="video/mp4" />
+        </video>
+      </div>
+      
       {/* Background grid pattern with parallax effect */}
       <div
         className="absolute inset-0 bg-grid-pattern opacity-[0.03] dark:opacity-[0.02] z-0"
@@ -46,67 +77,107 @@ const Hero = () => {
         ></div>
       </div>
       
-      <div className="container mx-auto px-4 z-10 relative">
+      <div className="container mx-auto px-4 z-10 relative py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
           <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 pb-2 mb-6 animate-fade-in"
+            className={getAnimationClass(100)}
             style={{ transform: `translateY(${translateYSlow * -0.3}px)` }}
           >
-            Manage Your Cleaning Business
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-augwa to-augwa-dark dark:from-augwa-300 dark:to-augwa-500 block mt-2">
-              Efficiently
+            <span className="text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 pb-2">
+              Manage Your Cleaning Business
+            </span>
+            <span className="block mt-2 text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-augwa to-augwa-dark dark:from-augwa-300 dark:to-augwa-500">
+              Without The Headaches
             </span>
           </h1>
+          
           <p 
-            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto animate-fade-in animation-delay-100"
+            className={`text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto ${getAnimationClass(200)}`}
             style={{ transform: `translateY(${translateYSlow * -0.2}px)` }}
           >
-            Running your cleaning business is about to get easier and more affordable! 
-            Augwa simplifies everything from scheduling to payments, crew management, and customer reminders — so you can focus on what matters.
+            <span className="font-semibold">Stop wasting $4,380/year</span> on admin tasks! Augwa automates scheduling, 
+            payments, staff management, and client communications so you can focus on growing your cleaning business.
           </p>
           
           <div 
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in animation-delay-200"
+            className={`flex flex-col sm:flex-row items-center justify-center gap-4 ${getAnimationClass(300)}`}
             style={{ transform: `translateY(${translateYSlow * -0.1}px)` }}
           >
             <Link
-              to="/login"
-              className="px-8 py-3 rounded-full bg-augwa text-white font-medium hover:bg-augwa-600 active:bg-augwa-700 transition-all duration-300 shadow-lg hover:shadow-augwa-400/20 hover:scale-105 active:scale-95 flex items-center button-shine"
+              to="#pricing"
+              className="group px-8 py-3 rounded-full bg-augwa text-white font-medium hover:bg-augwa-600 active:bg-augwa-700 transition-all duration-300 shadow-lg hover:shadow-augwa-400/20 hover:scale-105 active:scale-95 flex items-center button-shine"
             >
-              Get Started
-              <ArrowRight className="ml-2 h-5 w-5" />
+              Start Saving Today
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
             <a 
               href="#calculator" 
               className="px-8 py-3 rounded-full border border-gray-300 dark:border-gray-700 text-gray-800 dark:text-white font-medium hover:bg-gray-100 dark:hover:bg-gray-800 active:bg-gray-200 transition-all duration-300 hover:scale-105 active:scale-95"
             >
-              Calculate Savings
+              Calculate Your Savings
             </a>
+          </div>
+          
+          {/* Feature highlights */}
+          <div className={`mt-16 max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 ${getAnimationClass(400)}`}>
+            {[
+              { icon: Calendar, title: "Scheduling", color: "bg-blue-500/10 text-blue-600 dark:text-blue-400" },
+              { icon: Bell, title: "Reminders", color: "bg-amber-500/10 text-amber-600 dark:text-amber-400" },
+              { icon: CreditCard, title: "Payments", color: "bg-green-500/10 text-green-600 dark:text-green-400" },
+              { icon: Users, title: "Staff Mgmt", color: "bg-purple-500/10 text-purple-600 dark:text-purple-400" }
+            ].map((feature, i) => (
+              <div 
+                key={feature.title} 
+                className="flex flex-col items-center p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                style={{ 
+                  transitionDelay: `${i * 100}ms`,
+                  transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+                  opacity: isLoaded ? 1 : 0
+                }}
+              >
+                <div className={`w-10 h-10 rounded-full ${feature.color} flex items-center justify-center mb-2`}>
+                  <feature.icon className="w-5 h-5" />
+                </div>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{feature.title}</span>
+              </div>
+            ))}
           </div>
         </div>
         
-        {/* Floating cleaning illustration */}
+        {/* 3D Dashboard Preview */}
         <div 
-          className="relative mt-16 md:mt-24 max-w-5xl mx-auto animate-fade-in animation-delay-300"
-          style={{ transform: `translateY(${translateYSlow * -0.05}px)` }}
+          className={`relative mt-16 md:mt-24 max-w-5xl mx-auto ${getAnimationClass(500)}`}
+          style={{ 
+            transform: `translateY(${translateYSlow * -0.05}px) rotateX(${rotate}deg)`, 
+            transformStyle: 'preserve-3d',
+            perspective: '1000px'
+          }}
         >
-          <div className="relative rounded-xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700">
-            <div className="absolute inset-0 bg-gradient-to-t from-augwa/20 to-transparent opacity-70 dark:from-augwa-950/40 dark:to-transparent"></div>
+          <div className="relative rounded-xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 transform-style-3d">
+            {/* Image overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-augwa/30 to-transparent opacity-70 dark:from-augwa-950/40 dark:to-transparent z-10"></div>
+            
+            {/* Main dashboard image */}
             <img 
-              src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-              alt="Cleaning professional using Augwa app" 
+              src="https://images.unsplash.com/photo-1585421514284-efb74c2b69ba?q=80&w=2070&auto=format&fit=crop" 
+              alt="Augwa dashboard" 
               className="w-full h-auto object-cover rounded-xl"
-              style={{ height: '450px', objectPosition: 'center 40%' }}
+              style={{ height: '550px', objectPosition: 'center 30%' }}
             />
-            <div className="absolute inset-0 flex items-center justify-center">
+            
+            {/* Interactive floating panel */}
+            <div
+              className="absolute inset-0 flex items-center justify-center z-20"
+              style={{ transform: `translateZ(20px)` }}
+            >
               <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md p-6 md:p-8 rounded-xl max-w-md mx-4 shadow-xl border border-gray-200 dark:border-gray-700 transform transition-transform duration-500 hover:scale-105">
-                <h3 className="text-xl md:text-2xl font-bold mb-3 text-gray-900 dark:text-white">Ready to simplify your operations?</h3>
+                <h3 className="text-xl md:text-2xl font-bold mb-3 text-gray-900 dark:text-white">Ready to boost your profits?</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Join over 1,000 cleaning professionals who use Augwa to save time, reduce costs, and improve customer satisfaction.
+                  Join over 1,200 cleaning professionals who save <strong className="text-augwa-600 dark:text-augwa-400">15+ hours per week</strong> using Augwa.
                 </p>
                 <Link
-                  to="/login"
-                  className="w-full block text-center px-6 py-3 rounded-full bg-augwa text-white font-medium hover:bg-augwa-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                  to="#pricing"
+                  className="w-full block text-center px-6 py-3 rounded-full bg-augwa text-white font-medium hover:bg-augwa-600 transition-all duration-300 shadow-md hover:shadow-lg button-shine"
                 >
                   Start Your Free Trial
                 </Link>
@@ -115,8 +186,11 @@ const Hero = () => {
           </div>
           
           {/* Floating UI elements */}
-          <div className="absolute -top-8 -left-8 md:top-auto md:-bottom-12 md:-left-12 animate-float">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 border border-gray-200 dark:border-gray-700 transform rotate-6">
+          <div
+            className="absolute -top-8 -left-8 md:top-auto md:-bottom-12 md:-left-12 animate-float z-20"
+            style={{ transform: `translateZ(40px)` }}
+          >
+            <div className="glass-card p-4 border border-white/30 dark:border-white/10 shadow-xl transform rotate-6">
               <div className="flex items-center">
                 <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
                   <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -124,15 +198,18 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">Appointment Confirmed</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Tomorrow at 10:00 AM</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">New Booking Received</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Lakeside Estate, 4 bedrooms</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="absolute -bottom-8 -right-8 md:-top-12 md:-right-12 animate-float animation-delay-150">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 border border-gray-200 dark:border-gray-700 transform -rotate-3">
+          <div
+            className="absolute -bottom-8 -right-8 md:-top-12 md:-right-12 animate-float animation-delay-150 z-20"
+            style={{ transform: `translateZ(30px)` }}
+          >
+            <div className="glass-card p-4 border border-white/30 dark:border-white/10 shadow-xl transform -rotate-3">
               <div className="flex items-center">
                 <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg">
                   <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -140,12 +217,18 @@ const Hero = () => {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">Payment Received</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">$249.00 from John Smith</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">Monthly Revenue</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">$14,835 <span className="text-green-500">↑ 23%</span></p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        
+        {/* Scroll down indicator */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-500 dark:text-gray-400 animate-bounce-soft">
+          <span className="text-sm mb-2">Scroll Down</span>
+          <ChevronDown className="h-5 w-5" />
         </div>
       </div>
       

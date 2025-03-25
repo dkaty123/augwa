@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
@@ -8,10 +8,17 @@ import PricingCalculator from "@/components/PricingCalculator";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import MiniDashboard from "@/components/MiniDashboard";
+import StatisticsBanner from "@/components/StatisticsBanner";
 
 const Index = () => {
-  // Add smooth scrolling for anchor links
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Add smooth scrolling for anchor links and lazy loading
   useEffect(() => {
+    // Mark page as loaded
+    setIsLoaded(true);
+
     // Lazy load images as they come into view
     const lazyImages = document.querySelectorAll('.lazy-image');
     
@@ -84,12 +91,14 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className={`min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}>
       <Navbar />
       
       <main>
         <Hero />
+        <StatisticsBanner />
         <Features />
+        <MiniDashboard />
         <Testimonials />
         <Pricing />
         <PricingCalculator />
