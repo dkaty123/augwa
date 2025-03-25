@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Calendar, Users, BarChart3, Clock, DollarSign, CheckCircle, X } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -36,6 +35,24 @@ const MiniDashboard = () => {
     { id: 1, client: 'Jennifer Smith', time: '9:00 AM', duration: '3 hours', address: '123 Main St', status: 'confirmed' },
     { id: 2, client: 'Robert Jones', time: '1:30 PM', duration: '2.5 hours', address: '456 Oak Ave', status: 'pending' },
     { id: 3, client: 'Sarah Williams', time: '4:00 PM', duration: '2 hours', address: '789 Pine Rd', status: 'confirmed' }
+  ];
+
+  const mobileScreens = [
+    {
+      title: "Dashboard Overview",
+      image: "https://images.unsplash.com/photo-1551650992-ee4fd47df41f?w=248",
+      description: "Track your business performance at a glance"
+    },
+    {
+      title: "Booking Management",
+      image: "https://images.unsplash.com/photo-1638913971251-832d29947de6?w=248",
+      description: "Manage appointments with ease"
+    },
+    {
+      title: "Client Portal",
+      image: "https://images.unsplash.com/photo-1638913970675-b5ec36292665?w=248",
+      description: "Keep your clients happy and engaged"
+    }
   ];
 
   return (
@@ -267,24 +284,28 @@ const MiniDashboard = () => {
             </p>
           </div>
           
-          <div className="relative">
+          <div className="relative px-12">
             <Carousel className="max-w-3xl mx-auto">
               <CarouselContent>
-                {[1, 2, 3].map((num) => (
-                  <CarouselItem key={num} className="basis-full md:basis-1/2 lg:basis-1/3">
+                {mobileScreens.map((screen, index) => (
+                  <CarouselItem key={index} className="basis-full md:basis-1/2 lg:basis-1/3">
                     <div className="p-4">
                       <div className="overflow-hidden rounded-xl border-8 border-gray-800 dark:border-gray-700 shadow-2xl relative bg-gray-900">
                         {/* Phone top notch */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-gray-800 dark:bg-gray-700 rounded-b-xl z-10"></div>
                         
-                        <img 
-                          src={`https://placehold.co/248x536/0095ff/FFFFFF?text=Mobile+App+${num}`} 
-                          alt={`Mobile app screen ${num}`}
-                          className="w-full h-auto"
-                        />
-                        
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-white text-lg font-bold">App Screen {num}</div>
+                        <div className="relative aspect-[9/19.5] overflow-hidden">
+                          <img 
+                            src={screen.image}
+                            alt={screen.title}
+                            className="absolute inset-0 w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                              <h4 className="text-lg font-semibold mb-1">{screen.title}</h4>
+                              <p className="text-sm opacity-80">{screen.description}</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -299,7 +320,38 @@ const MiniDashboard = () => {
               </div>
             </Carousel>
           </div>
+
+          <div className="mt-12 flex justify-center gap-4">
+            <a 
+              href="https://apps.apple.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-all duration-300"
+            >
+              <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.665 16.811a10.316 10.316 0 0 1-1.021 1.837c-.537.767-.978 1.297-1.316 1.592-.525.482-1.089.73-1.692.744-.433 0-.954-.123-1.562-.373-.61-.249-1.17-.371-1.683-.371-.537 0-1.113.122-1.73.371-.619.25-1.118.381-1.498.396-.579.025-1.156-.229-1.73-.764-.367-.32-.826-.87-1.377-1.648-.59-.829-1.075-1.794-1.455-2.891-.407-1.187-.611-2.335-.611-3.447 0-1.273.275-2.372.826-3.292a4.857 4.857 0 0 1 1.73-1.751 4.65 4.65 0 0 1 2.34-.662c.46 0 1.063.142 1.81.422s1.227.422 1.436.422c.158 0 .689-.167 1.593-.498.853-.307 1.573-.434 2.163-.384 1.6.129 2.801.759 3.6 1.895-1.43.867-2.137 2.08-2.123 3.637.012 1.213.453 2.222 1.317 3.023a4.33 4.33 0 0 0 1.315.863c-.106.307-.218.6-.337.882zM15.998 2.38c0 .95-.348 1.838-1.039 2.659-.836.976-1.846 1.541-2.941 1.452a2.955 2.955 0 0 1-.021-.36c0-.913.396-1.889 1.103-2.688.352-.404.8-.741 1.343-1.009.542-.264 1.054-.41 1.536-.435.014.128.019.255.019.381z"/>
+              </svg>
+              Download for iOS
+            </a>
+            <a 
+              href="https://play.google.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-all duration-300"
+            >
+              <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 20.5V3.5c0-.827.673-1.5 1.5-1.5.357 0 .687.126.944.336L19.5 12l-14.056 9.664A1.5 1.5 0 0 1 3 20.5zm2-2.494L16.51 12 5 5.994v12.012z"/>
+              </svg>
+              Download for Android
+            </a>
+          </div>
         </div>
+      </div>
+      
+      {/* Scroll down indicator */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-500 dark:text-gray-400 animate-bounce-soft">
+        <span className="text-sm mb-2">Scroll Down</span>
+        <ChevronDown className="h-5 w-5" />
       </div>
     </section>
   );
