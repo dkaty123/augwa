@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Menu, X, ChevronDown, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,12 +100,12 @@ const Navbar = () => {
                 <Moon className="h-5 w-5 text-gray-600 hover:text-gray-800 transition-transform hover:-rotate-12" />
               }
             </button>
-            <a 
-              href="#" 
+            <Link 
+              to="/login" 
               className="px-5 py-2.5 text-sm font-medium text-white bg-augwa hover:bg-augwa-600 transition-all duration-300 rounded-full shadow-sm hover:shadow-md hover:shadow-augwa-400/20 active:scale-95 relative overflow-hidden button-shine"
             >
-              Get Started
-            </a>
+              Login
+            </Link>
           </div>
         </nav>
 
@@ -168,13 +169,13 @@ const Navbar = () => {
           </a>
 
           <div className="pt-4">
-            <a 
-              href="#" 
+            <Link 
+              to="/login"
               className="block w-full px-4 py-3 text-center font-medium text-white bg-augwa rounded-full shadow-sm hover:bg-augwa-600 transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Get Started
-            </a>
+              Login
+            </Link>
           </div>
         </nav>
       </div>
