@@ -1,4 +1,4 @@
- # 🧹 Augwa – Business Management Platform for Residential Cleaning Businesses  
+  # 🧹 Augwa – Business Management Platform for Residential Cleaning Businesses  
 
 ![image](https://github.com/user-attachments/assets/b8ca505d-b3f9-488c-bbda-3f85bd42033e)
 
